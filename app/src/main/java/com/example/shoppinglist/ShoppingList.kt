@@ -19,10 +19,12 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,6 +35,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import com.example.shoppinglist.ui.theme.DarkBlue
+import com.example.shoppinglist.ui.theme.Orange
 
 data class ShoppingItem(
     val id:Int,
@@ -49,8 +53,8 @@ fun ShoppingListApplication(){
     var itemQuantity by remember{ mutableStateOf("")}
 
     Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center
+        modifier = Modifier.fillMaxSize().background(color = DarkBlue),
+        verticalArrangement = Arrangement.Center,
     ){
         Button(
             onClick = {
@@ -59,6 +63,9 @@ fun ShoppingListApplication(){
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(top = 32.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Orange
+            )
         ){
             Text(text = "Add Item")
         }
@@ -104,7 +111,12 @@ fun ShoppingListApplication(){
                         .padding(8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ){
-                    Button(onClick = { showDialog = false }) {
+                    Button(
+                        onClick = { showDialog = false },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Orange
+                        )
+                        ) {
                         Text("Cancel")
                     }
                     Button(onClick = {
@@ -119,7 +131,11 @@ fun ShoppingListApplication(){
                             showDialog = false
                             itemName = ""
                         }
-                    }) {
+                    },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Orange
+                        )
+                    ) {
                         Text("Add")
                     }
                 }
@@ -132,7 +148,10 @@ fun ShoppingListApplication(){
                         singleLine = true,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(8.dp)
+                            .padding(8.dp),
+                        colors = TextFieldDefaults.colors(
+                            focusedIndicatorColor = Orange,
+                         ),
                         )
 
                     OutlinedTextField(value = itemQuantity,
@@ -140,10 +159,14 @@ fun ShoppingListApplication(){
                         singleLine = true,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(8.dp)
+                            .padding(8.dp),
+                        colors = TextFieldDefaults.colors(
+                            focusedIndicatorColor = Orange,
+                        ),
                     )
                 }
-            }   
+            },
+            containerColor = DarkBlue
         )
     }
 }
@@ -188,7 +211,10 @@ fun ShoppingItemEditor(item: ShoppingItem, onEditComplete: (String,Int) -> Unit)
             //This ?: is just like ?? in Flutter
             onEditComplete(editName, editQuantity.toIntOrNull() ?: 1)
 
-                }
+                },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Orange
+            )
             ) {
             Text("Save")
         }
@@ -209,7 +235,7 @@ fun ShoppingListItem(
             .fillMaxWidth()
             .padding(8.dp)
             .border(
-                border = BorderStroke(2.dp, Color.Cyan),
+                border = BorderStroke(2.dp, Orange),
                 shape = RoundedCornerShape(2.dp),
             ),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -219,10 +245,18 @@ fun ShoppingListItem(
         Text("Qty: ${item.quantity}", modifier = Modifier.padding(8.dp))
         Row(modifier = Modifier.padding(8.dp)){
             IconButton(onClick = onEditClick){
-                Icon(imageVector = Icons.Default.Edit, contentDescription = null)
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = null,
+                    tint = Orange,
+                )
             }
             IconButton(onClick = onDeleteClick){
-                Icon(imageVector = Icons.Default.Delete, contentDescription = null)
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = null,
+                    tint = Orange,
+                )
             }
         }
     }
